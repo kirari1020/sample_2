@@ -4,7 +4,7 @@ class PostImagesController < ApplicationController
   end
 
   def create
-    @post_image = PostImage.new(post_image_params)
+    @post_image = PostImage.new(post_image_params) #何か投稿する時は必ずparamsを通る！ Railsのルール
     @post_image.user_id = current_user.id
     @post_image.save
     redirect_to post_images_path
@@ -16,6 +16,7 @@ class PostImagesController < ApplicationController
 
   def show
     @post_image = PostImage.find(params[:id])
+    @post_comment = PostComment.new  #空のインスタンス変数を渡し、コメント投稿ができるようにします。
   end
 
   def destroy
@@ -23,11 +24,11 @@ class PostImagesController < ApplicationController
     @post_image.destroy
     redirect_to post_images_path
   end
-  
+
   private
-  
+
   def post_image_params
     params.require(:post_image).permit(:shop_name, :image, :caption)
   end
-  
+
 end
